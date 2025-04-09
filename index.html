@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RunBant - Treadmill Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS will go here */
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 28px; /* Extra large for treadmills */
+            background: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        #messages {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        input, button {
+            font-size: 24px;
+            padding: 12px;
+        }
+        button {
+            background: #FF6B35;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>🏃 RunBant</h1>
+        <div id="messages"></div>
+        <div>
+            <input type="text" id="messageInput" placeholder="Type while you run..." style="width: 70%;">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    
+    <script>
+        // Firebase Config (replace with your own)
+        const firebaseConfig = {
+  apiKey: "AIzaSyAiiAe62RDdlPH30aMAD6oa-TenhcCMMvk",
+  authDomain: "runbant.firebaseapp.com",
+  projectId: "runbant",
+  storageBucket: "runbant.firebasestorage.app",
+  messagingSenderId: "451903372082",
+  appId: "1:451903372082:web:2662ed4f55329aa84d352b",
+  measurementId: "G-RTB7E3MMGS"
+};
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        // Chat functions
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            if (message !== '') {
+                db.collection('messages').add({
+                    text: message,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    user: `Runner${Math.floor(Math.random() * 1000)}`
+                });
+                messageInput.value = '';
+            }
+        }
+        
+        // Listen for new messages
+        db.collection('messages')
+            .orderBy('timestamp', 'asc')
+            .onSnapshot(snapshot => {
+                const messagesDiv = document.getElementById('messages');
+                messagesDiv.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const msg = doc.data();
+                    messagesDiv.innerHTML += `<p><strong>${msg.user}:</strong> ${msg.text}</p>`;
+                });
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            });
+    </script>
+</body>
+</html>

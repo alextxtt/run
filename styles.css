@@ -1,0 +1,99 @@
+/* ===== TREADMILL-FRIENDLY DESIGN ===== */
+/* Big text, high contrast, one-handed usability */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 32px; /* Extra large for treadmill distance */
+    line-height: 1.5;
+    background: #1a1a1a; /* Dark mode reduces glare */
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+    -webkit-text-size-adjust: none; /* Prevent zooming */
+  }
+  
+  .chat-container {
+    max-width: 1000px; /* Wider for treadmill screens */
+    margin: 0 auto;
+    background: #2d2d2d;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  }
+  
+  #messages {
+    height: 60vh; /* Dynamic height */
+    overflow-y: auto;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    scrollbar-width: none; /* Hide scrollbar */
+  }
+  
+  #messages::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .message {
+    margin-bottom: 20px;
+    word-break: break-word;
+  }
+  
+  .user {
+    color: #4CAF50;
+    font-weight: bold;
+  }
+  
+  .input-area {
+    display: flex;
+    gap: 15px;
+  }
+  
+  #messageInput {
+    flex: 1;
+    font-size: 28px;
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+    background: #3d3d3d;
+    color: white;
+  }
+  
+  button {
+    font-size: 28px;
+    padding: 20px 30px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  button:active {
+    transform: scale(0.95);
+  }
+  
+  /* Quick message buttons */
+  .quick-messages {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .quick-btn {
+    background: #555;
+    padding: 15px 20px;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .message {
+    animation: fadeIn 0.3s ease-out;
+  }
